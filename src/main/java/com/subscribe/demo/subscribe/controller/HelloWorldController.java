@@ -1,4 +1,4 @@
-package com.subscribe.demo.subscribe.service;
+package com.subscribe.demo.subscribe.controller;
 
 import com.subscribe.demo.mail.Email;
 import com.subscribe.demo.mail.Mailer;
