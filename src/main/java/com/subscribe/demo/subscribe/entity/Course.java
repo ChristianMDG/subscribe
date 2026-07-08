@@ -1,10 +1,10 @@
 package com.subscribe.demo.subscribe.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import java.time.Instant;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "course")
@@ -12,16 +12,16 @@ import java.util.UUID;
 @Setter
 public class Course {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @Column(nullable = false)
-    private String title;
+  @Column(nullable = false)
+  private String title;
 
-    @Column(nullable = false)
-    private Instant startDate;
+  @Column(nullable = false)
+  private Instant startDate;
 
-    @Column(nullable = false)
-    private Instant endDate;
+  @Column(nullable = false)
+  private Instant endDate;
 }
