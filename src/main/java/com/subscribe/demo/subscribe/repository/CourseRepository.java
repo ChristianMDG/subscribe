@@ -1,11 +1,9 @@
 package com.subscribe.demo.subscribe.repository;
 
 import com.subscribe.demo.subscribe.entity.Course;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.UUID;
 
-public interface CourseRepository extends JpaRepository<Course, UUID> {
-  @Override
-  Optional<Course> findById(UUID uuid);
+public interface CourseRepository extends JpaRepository<
+        Course, UUID> {
 }

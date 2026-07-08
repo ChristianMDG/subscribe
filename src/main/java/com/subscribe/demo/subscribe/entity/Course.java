@@ -1,26 +1,27 @@
 package com.subscribe.demo.subscribe.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.Instant;
 import java.util.UUID;
-import lombok.*;
 
 @Entity
 @Table(name = "course")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Course {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @EqualsAndHashCode.Include
-  private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-  private String title;
-  private Instant startDate;
-  private Instant endDate;
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private Instant startDate;
+
+    @Column(nullable = false)
+    private Instant endDate;
 }

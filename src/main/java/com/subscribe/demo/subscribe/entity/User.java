@@ -1,26 +1,29 @@
 package com.subscribe.demo.subscribe.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.UUID;
-import lombok.*;
 
 @Entity
 @Table(name = "app_user")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @EqualsAndHashCode.Include
-  private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-  private String firstName;
-  private String lastName;
-  private String userName;
-  private String email;
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String userName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 }
