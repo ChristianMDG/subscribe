@@ -127,12 +127,16 @@ dependencies {
     implementation 'com.amazonaws:aws-lambda-java-events:3.11.3'
     implementation 'software.amazon.awssdk:sqs:2.21.40'
     implementation 'software.amazon.awssdk:eventbridge:2.21.40'
+    implementation 'software.amazon.awssdk:s3:2.21.40'
+    implementation 'software.amazon.awssdk:s3-transfer-manager:2.21.40'
     implementation 'software.amazon.awssdk.crt:aws-crt:0.28.12'
     implementation 'software.amazon.awssdk:ses:2.21.40'
     implementation 'software.amazon.awssdk:core:2.21.40'
 
-    // MAIL - Use this ONE dependency instead of the 4 conflicting ones
-    implementation 'org.eclipse.angus:angus-mail:2.0.3'
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+    implementation 'jakarta.activation:jakarta.activation-api:2.1.2'
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+    implementation 'com.sun.activation:jakarta.activation:2.0.1'
 
     implementation 'org.apache.tika:tika-core:2.9.1'
 
@@ -149,4 +153,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.2'
     testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
     testImplementation 'org.junit-pioneer:junit-pioneer:2.2.0'
+
+
+
+
 }
