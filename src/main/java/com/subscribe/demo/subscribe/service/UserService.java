@@ -51,6 +51,7 @@ public class UserService {
   private void applyRequest(User user, UserRequest request) {
     user.setFirstName(request.getFirstName());
     user.setLastName(request.getLastName());
+    user.setUserName(request.getUserName());
     user.setEmail(request.getEmail());
   }
 }
