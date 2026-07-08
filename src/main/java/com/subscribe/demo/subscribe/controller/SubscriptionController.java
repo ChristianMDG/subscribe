@@ -1,41 +1,50 @@
 package com.subscribe.demo.subscribe.controller;
 
 import com.subscribe.demo.endpoint.event.EventProducer;
-import com.subscribe.demo.endpoint.event.model.CourseSubscribed;
-import com.subscribe.demo.subscribe.dto.SubscriptionRequest;
+import com.subscribe.demo.endpoint.event.model.SubscriptionCreatedEvent;
+import com.subscribe.demo.service.event.SubscriptionCreationResult;
+import com.subscribe.demo.subscribe.dto.SubscribeRequest;
 import com.subscribe.demo.subscribe.dto.SubscriptionResponse;
 import com.subscribe.demo.subscribe.entity.Subscription;
 import com.subscribe.demo.subscribe.service.SubscriptionService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/course")
 @AllArgsConstructor
 public class SubscriptionController {
 
   private final SubscriptionService subscriptionService;
-  private final EventProducer<CourseSubscribed> eventProducer;
+  private final EventProducer<SubscriptionCreatedEvent> eventProducer;
 
-  @PostMapping("/{courseId}/subscriptions")
+  @PostMapping("/{courseId}/subscribe")
   @SneakyThrows
   public ResponseEntity<SubscriptionResponse> subscribe(
-      @PathVariable UUID courseId, @RequestBody SubscriptionRequest request) {
+      @PathVariable UUID courseId, @Valid @RequestBody SubscribeRequest request) {
 
-    Subscription subscription = subscriptionService.subscribe(request.userId(), courseId);
+    SubscriptionCreationResult result =
+        subscriptionService.subscribe(courseId, request.getUserId());
+    Subscription subscription = result.subscription();
 
-    var event = CourseSubscribed.builder().subscriptionId(subscription.getId()).build();
-    eventProducer.accept(List.of(event));
+    // Déclenche le traitement asynchrone : PDF + S3 + email
+    eventProducer.accept(List.of(result.event()));
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(SubscriptionResponse.from(subscription));
+    SubscriptionResponse response =
+        SubscriptionResponse.builder()
+            .subscriptionId(subscription.getId())
+            .userId(subscription.getUser().getId())
+            .courseId(subscription.getCourse().getId())
+            .status(subscription.getStatus())
+            .subscriptionDate(subscription.getSubscriptionDate())
+            .message("Inscription enregistrée. Email avec ticket en cours d'envoi.")
+            .build();
+
+    return ResponseEntity.ok(response);
   }
 }
