@@ -18,24 +18,24 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-        name = "subscription",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
+    name = "subscription",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Subscription {
 
-    @Id @GeneratedValue private UUID id;
+  @Id @GeneratedValue private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "course_id", nullable = false)
+  private Course course;
 
-    @Column(nullable = false)
-    private Instant subscribedAt;
+  @Column(nullable = false)
+  private Instant subscribedAt;
 }
