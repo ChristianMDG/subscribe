@@ -1,26 +1,32 @@
 package com.subscribe.demo.subscribe.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import java.util.UUID;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
     name = "subscription",
     uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"}))
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Subscription {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @EqualsAndHashCode.Include
-  private UUID id;
+  @Id @GeneratedValue private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "user_id", nullable = false)
@@ -30,5 +36,6 @@ public class Subscription {
   @JoinColumn(name = "course_id", nullable = false)
   private Course course;
 
-  @Builder.Default private Instant subscribedAt = Instant.now();
+  @Column(nullable = false)
+  private Instant subscribedAt;
 }
